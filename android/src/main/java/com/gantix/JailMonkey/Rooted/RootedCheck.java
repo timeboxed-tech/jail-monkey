@@ -20,12 +20,21 @@ public class RootedCheck {
         } else {
             check = new LessThan23();
         }
+        
         return check.checkRooted() || rootBeerCheck(context);
     }
 
     private static boolean rootBeerCheck(Context context) {
         RootBeer rootBeer = new RootBeer(context);
-        
-        return rootBeer.isRootedWithoutBusyBoxCheck();
+        return rootBeer.detectRootManagementApps() 
+                || rootBeer.detectPotentiallyDangerousApps() 
+                // || rootBeer.checkForBinary(BINARY_SU)
+                || rootBeer.checkForDangerousProps() 
+                // || rootBeer.checkForRWPaths()
+                || rootBeer.detectTestKeys() 
+                || rootBeer.checkSuExists() 
+                || rootBeer.checkForRootNative() 
+                || rootBeer.checkForMagiskBinary();
+        // return rootBeer.isRootedWithoutBusyBoxCheck();
     }
 }
